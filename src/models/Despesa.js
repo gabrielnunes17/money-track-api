@@ -2,15 +2,46 @@ import mongoose from "mongoose";
 
 const despesaSchema = new mongoose.Schema(
   {
-    descricao: { type: String, required: true },
-    valor: { type: Number, required: true },
-    categoria: { type: String, required: true },
-    data: { type: Date, required: true },
-    observacao: { trype: String },
+    descricao: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    valor: {
+      type: Number,
+      required: true,
+      min: 0.01,
+    },
+
+    categoria: {
+      type: String,
+      required: true,
+      enum: [
+        "Alimentação",
+        "Transporte",
+        "Moradia",
+        "Saúde",
+        "Educação",
+        "Lazer",
+        "Compras",
+        "Outros",
+      ],
+    },
+
+    data: {
+      type: Date,
+      required: true,
+    },
+
+    observacao: {
+      type: String,
+      default: "",
+    },
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+  },
 );
 
-const Despesa = mongoose.model("Despesa", despesaSchema);
-
-export default Despesa;
+export default mongoose.model("Despesa", despesaSchema);
